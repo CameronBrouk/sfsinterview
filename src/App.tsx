@@ -4,7 +4,14 @@ import { DebtTable } from './components/DebtTable'
 export const App = () => {
   return (
     <div className='h-screen w-screen bg-gray-200'>
-      <DebtTable />
+      <header className='w-full bg-white'>
+        <h1 className='p-4 mb-8 text-2xl font-medium'>
+          SFS Take Home Assessment
+        </h1>
+      </header>
+      <main className='flex justify-center'>
+        <DebtTable />
+      </main>
     </div>
   )
 }
