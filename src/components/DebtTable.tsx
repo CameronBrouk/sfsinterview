@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Debt } from '../debt.types'
+import { DebtTableRow } from './DebtTableRow'
 
 export const DebtTable = () => {
   const [debtList, setDebtList] = useState<Debt[]>([])
@@ -44,7 +45,10 @@ export const DebtTable = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody className='bg-white divide-y divide-gray-200'>
+                  {debtList &&
+                    debtList.map(debt => <DebtTableRow debtInfo={debt} />)}
+                </tbody>
               </table>
             </div>
           </div>
