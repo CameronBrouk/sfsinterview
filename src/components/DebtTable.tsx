@@ -102,8 +102,22 @@ export const DebtTable = () => {
               <button
                 className='bg-red-500 text-white p-2 m-2 rounded-md'
                 onClick={removeAllCheckedDebts}>
-                Remove Debts
+                Remove Selected Debts
               </button>
+            </div>
+          </div>
+
+          <div className='flex space-x-12 m-2 p-2 bg-white'>
+            <div className='flex space-x-2'>
+              <p className='font-medium text-md'>Total Rows: </p>
+              <p className='text-md'>{debtList.length}</p>
+            </div>
+
+            <div className='flex space-x-2'>
+              <p className='font-medium text-md'>Total Checked Rows: </p>
+              <p className='text-md'>
+                {debtList.filter(({ checked }) => checked).length}
+              </p>
             </div>
           </div>
 
