@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Debt } from '../debt.types'
 import { DebtTableRow } from './DebtTableRow'
+import { CreateDebtFormData, CreateDebtFormModal } from './CreateDebtFormModal'
 
-type DebtListItem = Debt & { checked: boolean }
+export type DebtListItem = Debt & { checked: boolean }
 
 export const DebtTable = () => {
   const [debtList, setDebtList] = useState<DebtListItem[]>([])
+  const [createFormShowing, setCreateFormShowing] = useState(false)
 
   useEffect(() => {
     axios
@@ -44,11 +46,18 @@ export const DebtTable = () => {
   const getTotalDebt = (allDebts: DebtListItem[]) =>
     allDebts.reduce((acc, { balance }) => balance + acc, 0)
 
+  const addDebt = (debt: Omit<DebtListItem, 'id' | 'checked'>) => {
+    setDebtList(debtList => [
+      ...debtList,
+      { ...debt, checked: false, id: debtList.length },
+    ])
+  }
+
   const tableRowClasses =
     'px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase'
 
   return (
-    <div className='w-1/2'>
+    <div className='w-3/4 relative'>
       <div className='flex flex-col'>
         <div className='-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
           <div className='inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8'>
@@ -93,17 +102,28 @@ export const DebtTable = () => {
                 </tbody>
               </table>
             </div>
+
             {/* Action Buttons */}
             <div className='flex'>
-              <button className='bg-blue-500 text-white p-2 m-2 rounded-md'>
-                Add Debt
-              </button>
-
               <button
                 className='bg-red-500 text-white p-2 m-2 rounded-md'
                 onClick={removeAllCheckedDebts}>
                 Remove Selected Debts
               </button>
+
+              {/* Show Create Form */}
+              <button
+                className='bg-blue-500 text-white p-2 m-2 rounded-md'
+                onClick={() => setCreateFormShowing(visible => !visible)}>
+                {createFormShowing ? 'Cancel Creation' : 'Add Debt'}
+              </button>
+
+              {createFormShowing && (
+                <CreateDebtFormModal
+                  closeForm={() => setCreateFormShowing(false)}
+                  addDebt={addDebt}
+                />
+              )}
             </div>
           </div>
 
