@@ -3,8 +3,10 @@ import axios from 'axios'
 import { Debt } from '../debt.types'
 import { DebtTableRow } from './DebtTableRow'
 
+type DebtListItem = Debt & { checked: boolean }
+
 export const DebtTable = () => {
-  const [debtList, setDebtList] = useState<Debt[]>([])
+  const [debtList, setDebtList] = useState<DebtListItem[]>([])
 
   useEffect(() => {
     axios
@@ -12,12 +14,27 @@ export const DebtTable = () => {
         'https://raw.githubusercontent.com/StrategicFS/Recruitment/master/data.json',
       )
       .then(({ data }) => {
-        setDebtList(data)
+        setDebtList(data.map((debt: Debt) => ({ ...debt, checked: false })))
       })
   }, [])
 
   const removeDebt = (id: number) => {
     setDebtList(debt => debt.filter(debt => id !== debt.id))
+  }
+
+  const toggleCheckbox = (id: number) => {
+    setDebtList(debt =>
+      debt.reduce((acc, curr) => {
+        if (curr.id === id) return [...acc, { ...curr, checked: !curr.checked }]
+        return [...acc, curr]
+      }, [] as DebtListItem[]),
+    )
+  }
+
+  const toggleAllCheckboxes = () => {
+    setDebtList(debt =>
+      debt.map(debtInfo => ({ ...debtInfo, checked: !debtInfo.checked })),
+    )
   }
 
   const tableRowClasses =
@@ -33,6 +50,13 @@ export const DebtTable = () => {
               <table className='min-w-full divide-y divide-gray-200'>
                 <thead className='bg-gray-50'>
                   <tr>
+                    <th scope='col' className={`${tableRowClasses}`}>
+                      <input
+                        type='checkbox'
+                        name='checkAll'
+                        onChange={toggleAllCheckboxes}
+                      />
+                    </th>
                     <th scope='col' className={tableRowClasses}>
                       Creditor
                     </th>
@@ -51,9 +75,13 @@ export const DebtTable = () => {
                   </tr>
                 </thead>
                 <tbody className='bg-white divide-y divide-gray-200'>
-                  {debtList &&
+                  {debtList.length > 0 &&
                     debtList.map(debt => (
-                      <DebtTableRow debtInfo={debt} removeDebt={removeDebt} />
+                      <DebtTableRow
+                        debtInfo={debt}
+                        removeDebt={removeDebt}
+                        toggleCheckbox={toggleCheckbox}
+                      />
                     ))}
                 </tbody>
               </table>
