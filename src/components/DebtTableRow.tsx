@@ -14,6 +14,11 @@ export const DebtTableRow = ({ debtInfo }: Props) => {
       <td className={rowClasses}>{debtInfo.lastName}</td>
       <td className={rowClasses}>{debtInfo.minPaymentPercentage}</td>
       <td className={rowClasses}>{debtInfo.balance}</td>
+      <td className={rowClasses}>
+        <button className='text-white p-1 px-2 rounded-md bg-red-400 font-medium'>
+          REMOVE
+        </button>
+      </td>
     </tr>
   )
 }

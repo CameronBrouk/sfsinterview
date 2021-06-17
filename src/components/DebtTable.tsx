@@ -24,6 +24,7 @@ export const DebtTable = () => {
       <div className='flex flex-col'>
         <div className='-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
           <div className='inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8'>
+            {/* Table */}
             <div className='overflow-hidden border-b border-gray-200 shadow sm:rounded-lg'>
               <table className='min-w-full divide-y divide-gray-200'>
                 <thead className='bg-gray-50'>
@@ -51,6 +52,9 @@ export const DebtTable = () => {
                 </tbody>
               </table>
             </div>
+            <button className='bg-blue-500 text-white p-2 m-2 rounded-md'>
+              Add Debt
+            </button>
           </div>
         </div>
       </div>
