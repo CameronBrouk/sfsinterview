@@ -16,6 +16,10 @@ export const DebtTable = () => {
       })
   }, [])
 
+  const removeDebt = (id: number) => {
+    setDebtList(debt => debt.filter(debt => id !== debt.id))
+  }
+
   const tableRowClasses =
     'px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase'
 
@@ -48,7 +52,9 @@ export const DebtTable = () => {
                 </thead>
                 <tbody className='bg-white divide-y divide-gray-200'>
                   {debtList &&
-                    debtList.map(debt => <DebtTableRow debtInfo={debt} />)}
+                    debtList.map(debt => (
+                      <DebtTableRow debtInfo={debt} removeDebt={removeDebt} />
+                    ))}
                 </tbody>
               </table>
             </div>
