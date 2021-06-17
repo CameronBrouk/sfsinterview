@@ -41,6 +41,9 @@ export const DebtTable = () => {
     setDebtList(debt => debt.filter(({ checked }) => !checked))
   }
 
+  const getTotalDebt = (allDebts: DebtListItem[]) =>
+    allDebts.reduce((acc, { balance }) => balance + acc, 0)
+
   const tableRowClasses =
     'px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase'
 
@@ -90,15 +93,23 @@ export const DebtTable = () => {
                 </tbody>
               </table>
             </div>
-            <button className='bg-blue-500 text-white p-2 m-2 rounded-md'>
-              Add Debt
-            </button>
+            {/* Action Buttons */}
+            <div className='flex'>
+              <button className='bg-blue-500 text-white p-2 m-2 rounded-md'>
+                Add Debt
+              </button>
 
-            <button
-              className='bg-red-500 text-white p-2 m-2 rounded-md'
-              onClick={removeAllCheckedDebts}>
-              Remove Debts
-            </button>
+              <button
+                className='bg-red-500 text-white p-2 m-2 rounded-md'
+                onClick={removeAllCheckedDebts}>
+                Remove Debts
+              </button>
+            </div>
+          </div>
+
+          <div className='flex justify-between m-2 p-2 bg-blue-800 text-white'>
+            <p className='font-medium text-xl'>Total Debt</p>
+            <p className='text-xl'>${getTotalDebt(debtList)}</p>
           </div>
         </div>
       </div>
