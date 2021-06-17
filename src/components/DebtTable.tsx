@@ -37,6 +37,10 @@ export const DebtTable = () => {
     )
   }
 
+  const removeAllCheckedDebts = () => {
+    setDebtList(debt => debt.filter(({ checked }) => !checked))
+  }
+
   const tableRowClasses =
     'px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase'
 
@@ -88,6 +92,12 @@ export const DebtTable = () => {
             </div>
             <button className='bg-blue-500 text-white p-2 m-2 rounded-md'>
               Add Debt
+            </button>
+
+            <button
+              className='bg-red-500 text-white p-2 m-2 rounded-md'
+              onClick={removeAllCheckedDebts}>
+              Remove Debts
             </button>
           </div>
         </div>
